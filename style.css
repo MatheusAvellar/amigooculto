@@ -1,0 +1,56 @@
+[hidden] {
+	display: none;
+}
+
+.warning {
+	font-weight: 600;
+	border: 3px solid #bdad45;
+	padding: 1rem;
+	background-color: #fffeed;
+}
+.no-js noscript + *, .no-js noscript ~ * {
+	display: none;
+}
+
+body {
+	font-family: "Inter var", Inter, Roboto, sans-serif;
+}
+header, main, footer {
+	max-width: 800px;
+	margin: auto;
+}
+
+button {
+	display: block;
+	font: inherit;
+	margin: 1rem auto;
+	border: 2px solid #6495ed;
+	padding: 0.5rem 1rem;
+	background-color: #d8e6ff;
+	box-shadow: 3px 3px #6495ed;
+	transition: box-shadow .1s ease, translate .1s ease;
+}
+button:focus-visible {
+	border-color: #000;
+}
+button:active {
+	box-shadow: 0 0 #6495ed;
+	translate: 3px 3px;
+}
+
+a[href] {
+	color: #1055cf;
+	text-decoration: none;
+}
+a[href]:is(:hover, :focus-visible) {
+	text-decoration: underline;
+}
+
+footer {
+	margin-top: 5rem;
+}
+footer .side-text {
+	text-align: right;
+	color: #aaa;
+	font-size: 85%;
+}

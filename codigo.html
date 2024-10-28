@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+	<meta charset="utf-8">
+	<title>Gerador de Amigo Oculto</title>
+	<meta content="Matheus Avellar" name="author">
+	<!-- <meta name="description" content=""> -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- <meta name="referrer" content="no-referrer"> -->
+	<link rel="preconnect" href="https://cdn.avl.la/" crossorigin>
+	<script src="./tln.min.js"></script>
+	<script src="./xxtea.min.js"></script>
+	<link rel="stylesheet" href="./style.css">
+	<style>
+#hidden-result p {
+	text-align: center;
+	text-wrap-style: balance;
+}
+#name-reveal {
+	font-size: 3em;
+	padding: 1rem;
+	border: 1px solid #b0b0b0;
+	margin: .5rem;
+}
+	</style>
+</head>
+<body class="no-js">
+	<script>document.body.classList.remove("no-js");</script>
+	<header>
+		<h1>Gerador de Amigo Oculto</h1>
+	</header>
+	<main>
+		<noscript>
+			<p class="warning">
+				Este website só funciona com JavaScript ativado!
+			</p>
+		</noscript>
+		<section id="has-good-code" hidden>
+			<div>
+				<p>
+					Você é <strong id="name1">[carregando...]</strong>?
+				</p>
+				<p>
+					Lembre-se que a graça da brincadeira é o mistério! Se você não for a
+					pessoa acima, não veja o amigo oculto dela.
+				</p>
+				<button id="show-results-btn">Sim, sou eu!</button>
+			</div>
+			<div id="hidden-result" hidden>
+				<p>
+					Seu amigo oculto é:
+				</p>
+				<p id="name-reveal">
+					<strong id="name2"></strong>
+				</p>
+			</div>
+		</section>
+		<section id="no-good-code" hidden>
+			<div id="no-code" hidden>
+				<p>
+					Faltou um código! <a href="./">Voltar para a página inicial</a>.
+				</p>
+			</div>
+			<div id="code-invalid" hidden>
+				<p>
+					Código inválido! <a href="./">Voltar para a página inicial</a>.
+				</p>
+			</div>
+		</section>
+		<script>
+window.addEventListener("load", function() {
+	// Tem código
+	if("search" in window.location
+	&& window.location.search.length > 0) {
+		const query = window.location.search.substring(1);
+		try {
+			// Tenta decriptar
+			const decrypted = decrypt(query);
+			// Se chegou aqui, sucesso; pega os nomes
+			const names = processQuery(decrypted);
+			// Coloca no DOM
+			inflateNames(names);
+			document.getElementById("has-good-code").hidden = false;
+		} catch(e) {
+			// Se houve erro decriptando, ó código é inválido
+			document.getElementById("no-good-code").hidden = false;
+			document.getElementById("code-invalid").hidden = false;
+		}
+	}
+	// Não tem código
+	else {
+		document.getElementById("no-good-code").hidden = false;
+		document.getElementById("no-code").hidden = false;
+	}
+});
+
+const KEY = 0xBADA55_C0FFEE;
+function decrypt(str) {
+	// [Ref] github.com/xxtea/xxtea-js
+	return XXTEA.decryptFromBase64(str, KEY);
+}
+
+function processQuery(str) {
+	const split = str.split(":");
+	return [ split[0], split[1] ];
+}
+
+function inflateNames(names) {
+	document.getElementById("name1").innerText = names[0];
+	document.getElementById("name2").innerText = names[1];
+}
+
+const showResultsBtn = document.getElementById("show-results-btn");
+showResultsBtn.addEventListener("click", function() {
+	const hiddenDiv = document.getElementById("hidden-result");
+	hiddenDiv.hidden = false;
+	showResultsBtn.hidden = true;
+});
+		</script>
+	</main>
+	<footer>
+		<hr>
+		<p class="side-text">
+			Feito com ♥&#xFE0E;<!--&#xFE0E;[Ref] stackoverflow.com/a/38452396/4824627-->
+			por Matheus Avellar<br>
+			Rio de Janeiro, 2024
+		</p>
+		<p class="side-text">
+			Nenhum dado é enviado a servidor nenhum;<br>
+			toda a conversão ocorre no seu próprio navegador.
+		</p>
+		<p class="side-text">
+			Este website faz uso de<br>
+			<a href="https://github.com/xxtea/xxtea-js">XXTEA.js</a> (<a href="https://github.com/xxtea/xxtea-js/blob/c067bf70422262351ea18c2cfd601d5bb92e0d63/LICENSE.md">MIT</a>)
+			e <a href="https://github.com/MatheusAvellar/textarea-line-numbers">TLN</a>
+			(<a href="https://github.com/MatheusAvellar/textarea-line-numbers/blob/f6f0d20858659dbbbd82211d8597939b45f266ef/LICENSE">Apache
+			2.0</a>).
+		</p>
+	</footer>
+	<link rel="stylesheet" href="https://cdn.avl.la/font/inter.css">
+</body>
+</html>
